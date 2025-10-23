@@ -9,9 +9,16 @@ import numpy as np
 from typing import Optional, Dict, Any
 from dataclasses import dataclass, field
 
-from preprocessing import PreprocessingPipeline, BasePreprocessor
-from training import BaseTrainer
-from evaluation import Evaluator, EvaluationResults, ResidualAnalyzer
+try:
+    # Try relative imports (when used as package)
+    from .preprocessing import PreprocessingPipeline, BasePreprocessor
+    from .training import BaseTrainer
+    from .evaluation import Evaluator, EvaluationResults, ResidualAnalyzer
+except ImportError:
+    # Fall back to absolute imports (when run as script)
+    from preprocessing import PreprocessingPipeline, BasePreprocessor
+    from training import BaseTrainer
+    from evaluation import Evaluator, EvaluationResults, ResidualAnalyzer
 
 
 @dataclass
@@ -259,11 +266,20 @@ def create_sample_pipeline() -> CompletePipeline:
     Create a sample pipeline with common configurations.
     This is a factory function demonstrating a design pattern.
     """
-    from preprocessing import (
-        MissingValueImputer, OutlierClipper, 
-        StandardScaler, PreprocessingPipeline
-    )
-    from training import LinearRegressionTrainer
+    try:
+        # Try relative imports (when used as package)
+        from .preprocessing import (
+            MissingValueImputer, OutlierClipper, 
+            StandardScaler, PreprocessingPipeline
+        )
+        from .training import LinearRegressionTrainer
+    except ImportError:
+        # Fall back to absolute imports (when run as script)
+        from preprocessing import (
+            MissingValueImputer, OutlierClipper, 
+            StandardScaler, PreprocessingPipeline
+        )
+        from training import LinearRegressionTrainer
     
     # Configuration
     config = PipelineConfig(
